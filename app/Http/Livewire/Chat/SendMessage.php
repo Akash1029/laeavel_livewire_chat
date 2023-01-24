@@ -20,15 +20,15 @@ class SendMessage extends Component
 
     public function resetComponent()
     {
-   
+
   $this->selectedConversation= null;
   $this->receiverInstance= null;
- 
+
         # code...
     }
-  
 
-    
+
+
     function updateSendMessage(Conversation $conversation, User $receiver)
     {
 
@@ -60,7 +60,7 @@ class SendMessage extends Component
         $this->emitTo('chat.chatbox', 'pushMessage', $this->createdMessage->id);
 
 
-        //reshresh coversation list 
+        //reshresh coversation list
         $this->emitTo('chat.chat-list', 'refresh');
         $this->reset('body');
 
@@ -75,7 +75,6 @@ class SendMessage extends Component
     {
 
         broadcast(new MessageSent(Auth()->user(), $this->createdMessage, $this->selectedConversation, $this->receiverInstance));
-        # code...
     }
     public function render()
     {

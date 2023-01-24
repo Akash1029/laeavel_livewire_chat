@@ -36,45 +36,34 @@ class Chatbox extends Component
 
 
     public function resetComponent()
-  {
- 
-$this->selectedConversation= null;
-$this->receiverInstance= null;
- 
-      # code...
-  }
+    {
+
+    $this->selectedConversation= null;
+    $this->receiverInstance= null;
+
+        # code...
+    }
 
     public function broadcastedMessageRead($event)
     {
-        //dd($event);
-
         if($this->selectedConversation){
-
-
-
             if((int) $this->selectedConversation->id === (int) $event['conversation_id']){
-
                 $this->dispatchBrowserEvent('markMessageAsRead');
             }
 
         }
-
-        # code...
     }
     /*---------------------------------------------------------------------------------------*/
-    /*-----------------------------Broadcasted Event fucntion-------------------------------------------*/
+    /*-----------Broadcasted Event fucntion-------------------------------------------*/
     /*----------------------------------------------------------------------------*/
 
     function broadcastedMessageReceived($event)
     {
-        ///here 
+        ///here
       $this->emitTo('chat.chat-list','refresh');
-        # code...
-        
+
         $broadcastedMessage = Message::find($event['message']);
-
-
-        #check if any selected conversation is set 
+        #check if any selected conversation is set
         if ($this->selectedConversation) {
             #check if Auth/current selected conversation is same as broadcasted selecetedConversationgfg
             if ((int) $this->selectedConversation->id  === (int)$event['conversation_id']) {
@@ -104,7 +93,6 @@ $this->receiverInstance= null;
         $newMessage = Message::find($messageId);
         $this->messages->push($newMessage);
         $this->dispatchBrowserEvent('rowChatToBottom');
-        # code...
     }
 
 

@@ -48,10 +48,10 @@
 
                         <div class="read">
                             @php
-                                
+
                           if($message->user->id === auth()->id()){
 
-                
+
                                     if($message->read == 0){
 
 
@@ -65,7 +65,7 @@
 
 
                             @endphp
-                      
+
 
                         </div>
                     </div>
@@ -127,26 +127,19 @@
 
 <script>
     $(document).on('click','.return',function(){
-
-
-window.livewire.emit('resetComponent');
-
+        window.livewire.emit('resetComponent');
     });
 </script>
- 
+
 
 <script>
 
 window.addEventListener('markMessageAsRead',event=>{
  var value= document.querySelectorAll('.status_tick');
-
- value.array.forEach(element, index => {
-     
-
-    element.classList.remove('bi bi-check2');
-    element.classList.add('bi bi-check2-all','text-primary');
- });
-
+    value.array.forEach(element, index => {
+        element.classList.remove('bi bi-check2');
+        element.classList.add('bi bi-check2-all','text-primary');
+    });
 });
 
 </script>

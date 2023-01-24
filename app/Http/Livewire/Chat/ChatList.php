@@ -8,44 +8,39 @@ use Livewire\Component;
 
 class ChatList extends Component
 {
-
-   
     public $auth_id;
     public $conversations;
     public $receiverInstance;
     public $name;
     public $selectedConversation;
- 
-  protected $listeners= ['chatUserSelected','refresh'=>'$refresh','resetComponent'];
+
+    protected $listeners= ['chatUserSelected','refresh'=>'$refresh','resetComponent'];
+    public function resetComponent()
+    {
+
+        $this->selectedConversation= null;
+        $this->receiverInstance= null;
+
+        # code...
+    }
 
 
+    public function chatUserSelected(Conversation $conversation,$receiverId)
+    {
 
-  public function resetComponent()
-  {
- 
-$this->selectedConversation= null;
-$this->receiverInstance= null;
- 
-      # code...
-  }
+    //  dd($conversation,$receiverId);
+    $this->selectedConversation= $conversation;
+    $receiverInstance= User::find($receiverId);
+        $this->emitTo('chat.chatbox','loadConversation', $this->selectedConversation,$receiverInstance);
+        $this->emitTo('chat.send-message','updateSendMessage',$this->selectedConversation,$receiverInstance);
 
- 
-     public function chatUserSelected(Conversation $conversation,$receiverId)
-     {
-
-      //  dd($conversation,$receiverId);
-      $this->selectedConversation= $conversation;
-      $receiverInstance= User::find($receiverId);
-            $this->emitTo('chat.chatbox','loadConversation', $this->selectedConversation,$receiverInstance);
-            $this->emitTo('chat.send-message','updateSendMessage',$this->selectedConversation,$receiverInstance);
-
-         # code...
-     }
+        # code...
+    }
     public function getChatUserInstance(Conversation $conversation, $request)
     {
         # code...
         $this->auth_id = auth()->id();
-        //get selected conversation 
+        //get selected conversation
 
         if ($conversation->sender_id == $this->auth_id) {
             $this->receiverInstance = User::firstWhere('id', $conversation->receiver_id);
